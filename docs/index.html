@@ -11,62 +11,337 @@
       background: #fffdf9;
       font-family: -apple-system, 'PingFang SC', sans-serif;
       color: #1e1e1e;
-      padding: 1.25rem 1rem 3rem;
       max-width: 480px;
       margin: 0 auto;
+      padding-bottom: 3rem;
     }
-    h1 { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.2rem; }
-    .subtitle { font-size: 0.85rem; color: #999; margin-bottom: 1.5rem; }
-    .filters { display: flex; gap: 0.4rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
-    .filter { padding: 5px 13px; border-radius: 20px; font-size: 0.8rem; border: 1px solid #e0dbd3; background: #fff; color: #666; }
-    .filter.active { background: #1e1e1e; color: #fff; border-color: #1e1e1e; }
+
+    /* Header */
+    .header { padding: 1.5rem 1.25rem 0.75rem; }
+    .header h1 { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.2rem; }
+    .header p { font-size: 0.82rem; color: #999; }
+
+    /* Filter sections */
+    .filters { padding: 0 1.25rem; }
+    .filter-group { margin-bottom: 0.75rem; }
+    .filter-group-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: #bbb; margin-bottom: 0.4rem; }
+    .filter-row { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .chip {
+      padding: 4px 12px; border-radius: 20px; font-size: 0.8rem;
+      border: 1px solid #e0dbd3; background: #fff; color: #666;
+      cursor: pointer; user-select: none; transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .chip.active { background: #1e1e1e; color: #fff; border-color: #1e1e1e; }
+    .chip:active { opacity: 0.7; }
+
+    /* Results count */
+    .results-bar { padding: 0.75rem 1.25rem 0.5rem; font-size: 0.78rem; color: #bbb; }
+
+    /* Cards */
+    .cards { padding: 0 1.25rem; }
     a { text-decoration: none; color: inherit; }
-    .card { background: #fff; border-radius: 14px; margin-bottom: 1rem; border: 1px solid #ebe5dc; overflow: hidden; }
-    .card img { width: 100%; height: 180px; object-fit: cover; display: block; }
-    .card-body { padding: 1rem 1.1rem 1rem; }
-    .chef { font-size: 0.72rem; padding: 2px 8px; border-radius: 20px; display: inline-block; margin-bottom: 0.4rem; }
-    .julia { color: #c47c1e; background: #fef3e2; }
-    .gordon { color: #c0392b; background: #fde8e8; }
-    .card h2 { font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem; }
-    .card .desc { font-size: 0.83rem; color: #888; line-height: 1.5; }
-    .meta { font-size: 0.75rem; color: #bbb; margin-top: 0.5rem; }
+    .card {
+      background: #fff; border-radius: 14px; margin-bottom: 1rem;
+      border: 1px solid #ebe5dc; overflow: hidden;
+      display: none; /* hidden by default, shown by JS */
+    }
+    .card.visible { display: block; }
+    .card img { width: 100%; height: 170px; object-fit: cover; display: block; }
+    .card-body { padding: 1rem 1.1rem 0.9rem; }
+    .chef-julia { font-size: 0.72rem; color: #c47c1e; background: #fef3e2; padding: 2px 8px; border-radius: 20px; display: inline-block; margin-bottom: 0.4rem; }
+    .chef-gordon { font-size: 0.72rem; color: #c0392b; background: #fde8e8; padding: 2px 8px; border-radius: 20px; display: inline-block; margin-bottom: 0.4rem; }
+    .card h2 { font-size: 0.97rem; font-weight: 600; margin-bottom: 0.25rem; line-height: 1.4; }
+    .card .desc { font-size: 0.82rem; color: #888; line-height: 1.5; }
+    .card-meta { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.6rem; }
+    .tag { font-size: 0.7rem; color: #999; background: #f5f3f0; padding: 2px 8px; border-radius: 20px; }
+
+    .no-results { text-align: center; padding: 3rem 1rem; color: #bbb; font-size: 0.9rem; display: none; }
+    .no-results.visible { display: block; }
   </style>
 </head>
 <body>
-  <h1>🍳 Cooking Ideas</h1>
-  <p class="subtitle">Julia Child · Gordon Ramsay · and more</p>
 
-  <div class="filters">
-    <span class="filter active">All</span>
-    <span class="filter">Julia Child</span>
-    <span class="filter">Gordon Ramsay</span>
-    <span class="filter">Quick</span>
-    <span class="filter">Weekend</span>
+<div class="header">
+  <h1>🍳 Cooking Ideas</h1>
+  <p>Julia Child · Gordon Ramsay</p>
+</div>
+
+<div class="filters">
+
+  <div class="filter-group">
+    <div class="filter-group-label">Chef</div>
+    <div class="filter-row">
+      <span class="chip active" data-filter="chef" data-value="all">All</span>
+      <span class="chip" data-filter="chef" data-value="julia">Julia Child</span>
+      <span class="chip" data-filter="chef" data-value="gordon">Gordon Ramsay</span>
+    </div>
   </div>
 
+  <div class="filter-group">
+    <div class="filter-group-label">Protein</div>
+    <div class="filter-row">
+      <span class="chip active" data-filter="protein" data-value="all">All</span>
+      <span class="chip" data-filter="protein" data-value="beef">🥩 Beef</span>
+      <span class="chip" data-filter="protein" data-value="chicken">🍗 Chicken</span>
+      <span class="chip" data-filter="protein" data-value="fish">🐟 Fish</span>
+      <span class="chip" data-filter="protein" data-value="egg">🥚 Egg</span>
+      <span class="chip" data-filter="protein" data-value="veg">🥦 Veg</span>
+    </div>
+  </div>
+
+  <div class="filter-group">
+    <div class="filter-group-label">Time</div>
+    <div class="filter-row">
+      <span class="chip active" data-filter="time" data-value="all">All</span>
+      <span class="chip" data-filter="time" data-value="quick">&lt; 1 hr</span>
+      <span class="chip" data-filter="time" data-value="medium">1–2 hrs</span>
+      <span class="chip" data-filter="time" data-value="long">&gt; 2 hrs</span>
+    </div>
+  </div>
+
+  <div class="filter-group">
+    <div class="filter-group-label">Cuisine</div>
+    <div class="filter-row">
+      <span class="chip active" data-filter="cuisine" data-value="all">All</span>
+      <span class="chip" data-filter="cuisine" data-value="french">🇫🇷 French</span>
+      <span class="chip" data-filter="cuisine" data-value="italian">🇮🇹 Italian</span>
+      <span class="chip" data-filter="cuisine" data-value="british">🇬🇧 British</span>
+      <span class="chip" data-filter="cuisine" data-value="american">🇺🇸 American</span>
+    </div>
+  </div>
+
+  <div class="filter-group">
+    <div class="filter-group-label">Meal Type</div>
+    <div class="filter-row">
+      <span class="chip active" data-filter="meal" data-value="all">All</span>
+      <span class="chip" data-filter="meal" data-value="brunch">Brunch</span>
+      <span class="chip" data-filter="meal" data-value="bistro">Bistro</span>
+      <span class="chip" data-filter="meal" data-value="dinner">Dinner</span>
+      <span class="chip" data-filter="meal" data-value="comfort">Comfort</span>
+    </div>
+  </div>
+
+  <div class="filter-group">
+    <div class="filter-group-label">Health</div>
+    <div class="filter-row">
+      <span class="chip active" data-filter="health" data-value="all">All</span>
+      <span class="chip" data-filter="health" data-value="light">🥗 Light</span>
+      <span class="chip" data-filter="health" data-value="moderate">⚖️ Moderate</span>
+      <span class="chip" data-filter="health" data-value="indulgent">🧈 Indulgent</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="results-bar" id="resultsBar">12 recipes</div>
+
+<div class="cards" id="cards">
+
   <a href="recipes/beef-bourguignon.html">
-    <div class="card">
+    <div class="card" data-chef="julia" data-protein="beef" data-time="long" data-cuisine="french" data-meal="bistro dinner" data-health="indulgent">
       <img src="https://images.unsplash.com/photo-1534939561126-855b8675edd7?w=800&q=80" alt="Beef Bourguignon" />
       <div class="card-body">
-        <span class="chef julia">Julia Child</span>
+        <span class="chef-julia">Julia Child</span>
         <h2>Beef Bourguignon</h2>
         <p class="desc">The one that started it all. Worth every hour.</p>
-        <div class="meta">Weekend · 3–4 hrs</div>
+        <div class="card-meta">
+          <span class="tag">🇫🇷 French</span><span class="tag">&gt; 2 hrs</span><span class="tag">🧈 Indulgent</span>
+        </div>
       </div>
     </div>
   </a>
 
   <a href="recipes/scrambled-eggs.html">
-    <div class="card">
+    <div class="card" data-chef="gordon" data-protein="egg" data-time="quick" data-cuisine="british" data-meal="brunch" data-health="moderate">
       <img src="https://images.unsplash.com/photo-1510693206972-df098062cb71?w=800&q=80" alt="Scrambled Eggs" />
       <div class="card-body">
-        <span class="chef gordon">Gordon Ramsay</span>
+        <span class="chef-gordon">Gordon Ramsay</span>
         <h2>Perfect Scrambled Eggs</h2>
         <p class="desc">Looks simple. Most people do it wrong.</p>
-        <div class="meta">Quick · 10 min</div>
+        <div class="card-meta">
+          <span class="tag">🇬🇧 British</span><span class="tag">&lt; 1 hr</span><span class="tag">⚖️ Moderate</span>
+        </div>
       </div>
     </div>
   </a>
+
+  <a href="recipes/coq-au-vin.html">
+    <div class="card" data-chef="julia" data-protein="chicken" data-time="long" data-cuisine="french" data-meal="bistro dinner" data-health="moderate">
+      <img src="https://images.unsplash.com/photo-1598103442097-8b74394b95c7?w=800&q=80" alt="Coq au Vin" />
+      <div class="card-body">
+        <span class="chef-julia">Julia Child</span>
+        <h2>Coq au Vin</h2>
+        <p class="desc">Chicken braised in wine — Julia's other masterpiece.</p>
+        <div class="card-meta">
+          <span class="tag">🇫🇷 French</span><span class="tag">&gt; 2 hrs</span><span class="tag">⚖️ Moderate</span>
+        </div>
+      </div>
+    </div>
+  </a>
+
+  <a href="recipes/beef-wellington.html">
+    <div class="card" data-chef="gordon" data-protein="beef" data-time="long" data-cuisine="british" data-meal="dinner" data-health="indulgent">
+      <img src="https://images.unsplash.com/photo-1600891964092-4316c288032e?w=800&q=80" alt="Beef Wellington" />
+      <div class="card-body">
+        <span class="chef-gordon">Gordon Ramsay</span>
+        <h2>Beef Wellington</h2>
+        <p class="desc">Gordon's signature. The ultimate showstopper.</p>
+        <div class="card-meta">
+          <span class="tag">🇬🇧 British</span><span class="tag">&gt; 2 hrs</span><span class="tag">🧈 Indulgent</span>
+        </div>
+      </div>
+    </div>
+  </a>
+
+  <a href="recipes/sole-meuniere.html">
+    <div class="card" data-chef="julia" data-protein="fish" data-time="quick" data-cuisine="french" data-meal="bistro dinner" data-health="light">
+      <img src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=800&q=80" alt="Sole Meunière" />
+      <div class="card-body">
+        <span class="chef-julia">Julia Child</span>
+        <h2>Sole Meunière</h2>
+        <p class="desc">The dish that changed Julia's life. 10 minutes, unforgettable.</p>
+        <div class="card-meta">
+          <span class="tag">🇫🇷 French</span><span class="tag">&lt; 1 hr</span><span class="tag">🥗 Light</span>
+        </div>
+      </div>
+    </div>
+  </a>
+
+  <a href="recipes/pan-seared-salmon.html">
+    <div class="card" data-chef="gordon" data-protein="fish" data-time="quick" data-cuisine="british" data-meal="dinner" data-health="light">
+      <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=800&q=80" alt="Pan Seared Salmon" />
+      <div class="card-body">
+        <span class="chef-gordon">Gordon Ramsay</span>
+        <h2>Pan-Seared Salmon</h2>
+        <p class="desc">Crispy skin, perfectly cooked every time.</p>
+        <div class="card-meta">
+          <span class="tag">🇬🇧 British</span><span class="tag">&lt; 1 hr</span><span class="tag">🥗 Light</span>
+        </div>
+      </div>
+    </div>
+  </a>
+
+  <a href="recipes/roast-chicken.html">
+    <div class="card" data-chef="julia" data-protein="chicken" data-time="medium" data-cuisine="french" data-meal="dinner comfort" data-health="moderate">
+      <img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=800&q=80" alt="Roast Chicken" />
+      <div class="card-body">
+        <span class="chef-julia">Julia Child</span>
+        <h2>Perfect Roast Chicken</h2>
+        <p class="desc">Julia's go-to Sunday dinner. Simple, flawless.</p>
+        <div class="card-meta">
+          <span class="tag">🇫🇷 French</span><span class="tag">1–2 hrs</span><span class="tag">⚖️ Moderate</span>
+        </div>
+      </div>
+    </div>
+  </a>
+
+  <a href="recipes/gordon-pasta.html">
+    <div class="card" data-chef="gordon" data-protein="veg" data-time="quick" data-cuisine="italian" data-meal="dinner" data-health="moderate">
+      <img src="https://images.unsplash.com/photo-1473093226555-0e37f97b5f41?w=800&q=80" alt="Pasta" />
+      <div class="card-body">
+        <span class="chef-gordon">Gordon Ramsay</span>
+        <h2>Spaghetti Carbonara</h2>
+        <p class="desc">No cream. Ever. Gordon is very serious about this.</p>
+        <div class="card-meta">
+          <span class="tag">🇮🇹 Italian</span><span class="tag">&lt; 1 hr</span><span class="tag">⚖️ Moderate</span>
+        </div>
+      </div>
+    </div>
+  </a>
+
+  <a href="recipes/french-onion-soup.html">
+    <div class="card" data-chef="julia" data-protein="veg" data-time="medium" data-cuisine="french" data-meal="bistro comfort" data-health="moderate">
+      <img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=800&q=80" alt="French Onion Soup" />
+      <div class="card-body">
+        <span class="chef-julia">Julia Child</span>
+        <h2>French Onion Soup</h2>
+        <p class="desc">Low and slow caramelized onions. The patience pays off.</p>
+        <div class="card-meta">
+          <span class="tag">🇫🇷 French</span><span class="tag">1–2 hrs</span><span class="tag">⚖️ Moderate</span>
+        </div>
+      </div>
+    </div>
+  </a>
+
+  <a href="recipes/gordon-burger.html">
+    <div class="card" data-chef="gordon" data-protein="beef" data-time="quick" data-cuisine="american" data-meal="comfort brunch" data-health="indulgent">
+      <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&q=80" alt="Burger" />
+      <div class="card-body">
+        <span class="chef-gordon">Gordon Ramsay</span>
+        <h2>Ultimate Beef Burger</h2>
+        <p class="desc">He has strong opinions about burger construction. He's right.</p>
+        <div class="card-meta">
+          <span class="tag">🇺🇸 American</span><span class="tag">&lt; 1 hr</span><span class="tag">🧈 Indulgent</span>
+        </div>
+      </div>
+    </div>
+  </a>
+
+  <a href="recipes/julia-crepes.html">
+    <div class="card" data-chef="julia" data-protein="egg" data-time="quick" data-cuisine="french" data-meal="brunch" data-health="moderate">
+      <img src="https://images.unsplash.com/photo-1519676867240-f03562e64548?w=800&q=80" alt="Crepes" />
+      <div class="card-body">
+        <span class="chef-julia">Julia Child</span>
+        <h2>French Crêpes</h2>
+        <p class="desc">Thin, buttery, endlessly versatile.</p>
+        <div class="card-meta">
+          <span class="tag">🇫🇷 French</span><span class="tag">&lt; 1 hr</span><span class="tag">⚖️ Moderate</span>
+        </div>
+      </div>
+    </div>
+  </a>
+
+  <a href="recipes/gordon-chicken-thighs.html">
+    <div class="card" data-chef="gordon" data-protein="chicken" data-time="quick" data-cuisine="british" data-meal="dinner" data-health="light">
+      <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=800&q=80" alt="Chicken Thighs" />
+      <div class="card-body">
+        <span class="chef-gordon">Gordon Ramsay</span>
+        <h2>Crispy Chicken Thighs</h2>
+        <p class="desc">Weeknight hero. Crispy skin, juicy inside, 30 minutes.</p>
+        <div class="card-meta">
+          <span class="tag">🇬🇧 British</span><span class="tag">&lt; 1 hr</span><span class="tag">🥗 Light</span>
+        </div>
+      </div>
+    </div>
+  </a>
+
+</div>
+
+<div class="no-results" id="noResults">No recipes match your filters 🤷</div>
+
+<script>
+  const filters = { chef: "all", protein: "all", time: "all", cuisine: "all", meal: "all", health: "all" };
+
+  document.querySelectorAll(".chip").forEach(chip => {
+    chip.addEventListener("click", () => {
+      const group = chip.dataset.filter;
+      const value = chip.dataset.value;
+      filters[group] = value;
+      // update active state
+      document.querySelectorAll(`.chip[data-filter="${group}"]`).forEach(c => c.classList.remove("active"));
+      chip.classList.add("active");
+      applyFilters();
+    });
+  });
+
+  function applyFilters() {
+    const cards = document.querySelectorAll(".card");
+    let visible = 0;
+    cards.forEach(card => {
+      const match = Object.entries(filters).every(([key, val]) => {
+        if (val === "all") return true;
+        return card.dataset[key] && card.dataset[key].includes(val);
+      });
+      card.classList.toggle("visible", match);
+      if (match) visible++;
+    });
+    document.getElementById("resultsBar").textContent = `${visible} recipe${visible !== 1 ? "s" : ""}`;
+    document.getElementById("noResults").classList.toggle("visible", visible === 0);
+  }
+
+  applyFilters();
+</script>
 
 </body>
 </html>
