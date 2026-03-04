@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Apple Crumble</title>
+  <title>Ultimate Beef Burger</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background: #fff; font-family: -apple-system, sans-serif; color: #1e1e1e; max-width: 480px; margin: 0 auto; line-height: 1.75; padding-bottom: 4rem; }
@@ -31,19 +31,18 @@
   </style>
 </head>
 <body>
-  <img class="hero" src="https://loremflickr.com/800/500/apple,crumble,dessert" alt="Apple Crumble" />
+  <img class="hero" src="https://loremflickr.com/800/500/burger,beef,homemade" alt="Ultimate Beef Burger" />
   <div class="content">
     <a class="back" href="../index.html">← Back</a>
     <span class="chef">Gordon Ramsay</span>
-    <h1>Apple Crumble</h1>
+    <h1>Ultimate Beef Burger</h1>
     <div class="meta-row">
-      <span>⏱ 1 hr</span>
-      <span>👥 Serves 6</span>
+      <span>⏱ 25 min</span>
+      <span>👥 Serves 2</span>
     </div>
-
-    <a href="https://www.youtube.com/watch?v=yYdBhSnQJaA" target="_blank" style="display:block;text-decoration:none;">
+    <a href="https://www.youtube.com/watch?v=v2Owr70RQPE" target="_blank" style="display:block;text-decoration:none;">
       <div style="position:relative;border-radius:12px;overflow:hidden;background:#000;aspect-ratio:16/9;">
-        <img src="https://img.youtube.com/vi/yYdBhSnQJaA/hqdefault.jpg" style="width:100%;height:100%;object-fit:cover;opacity:0.85;" />
+        <img src="https://img.youtube.com/vi/v2Owr70RQPE/hqdefault.jpg" style="width:100%;height:100%;object-fit:cover;opacity:0.85;" />
         <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
           <div style="width:60px;height:60px;background:rgba(255,0,0,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;">
             <div style="width:0;height:0;border-style:solid;border-width:10px 0 10px 20px;border-color:transparent transparent transparent white;margin-left:4px;"></div>
@@ -52,53 +51,45 @@
         <div style="position:absolute;bottom:0;left:0;right:0;padding:.75rem 1rem;background:linear-gradient(transparent,rgba(0,0,0,0.7));color:white;font-size:.85rem;">Watch Gordon Ramsay make it on YouTube</div>
       </div>
     </a>
-
     <h2>Steps</h2>
     <ol>
-      <li>Peel, core and slice apples. Toss with sugar, cinnamon, lemon.</li>
-      <li>Pour into baking dish, add a splash of water.</li>
-      <li>Rub cold butter into flour until breadcrumb texture. Stir in sugars and oats.</li>
-      <li>Scatter topping over fruit.</li>
-      <li>Bake at 180°C for 35-40 minutes until golden and bubbling.</li>
+      <li>Season mince with salt and pepper. Don't over-mix. Form 2 patties slightly wider than the bun.</li>
+      <li>Make a small indent in the centre of each patty.</li>
+      <li>Cook in hot cast iron pan 3 minutes per side for medium. No pressing.</li>
+      <li>Add cheese in last 30 seconds. Cover to melt.</li>
+      <li>Toast buns. Layer: bottom, lettuce, tomato, patty, cheese, gherkins, sauce, top.</li>
     </ol>
-
-    <div class="tip">
-      <strong>Gordon's tip:</strong> Use cold butter and work fast — you want a crumbly texture, not a paste.
-    </div>
-
+    <div class="tip"><strong>Gordon's tip:</strong> The indent in the centre stops the burger puffing up into a ball as it cooks — it cooks flat and stays in the bun.</div>
     <h2>Serve With</h2>
     <ul>
-      <li>Vanilla custard</li>
-      <li>Clotted cream</li>
-      <li>Vanilla ice cream</li>
+      <li>Proper chips or fries</li>
+      <li>Cold beer or milkshake</li>
+      <li>Nothing else required</li>
     </ul>
-
     <h2>Ingredients</h2>
     <div class="scaler">
-      <label>Adjust apples to scale the recipe:</label>
+      <label>Adjust beef mince to scale the recipe:</label>
       <div class="scaler-row">
-        <input type="number" id="keyInput" value="6" min="1" step="1" />
-        <span>apples</span>
+        <input type="number" id="keyInput" value="500" min="1" step="1" />
+        <span>g</span>
       </div>
-      <div class="scaler-note">Base recipe: 6 apples · Serves 6</div>
+      <div class="scaler-note">Base recipe: 500 g · Serves 2</div>
     </div>
     <div id="ingredients"></div>
   </div>
-
   <script>
-    const BASE = 6;
+    const BASE = 500;
     const ingredients = [
-      { name: "Bramley apples", base: '6', unit: "apples" },
-      { name: "Sugar", base: '100', unit: "g" },
-      { name: "Cinnamon", base: '1', unit: "tsp" },
-      { name: "Lemon juice", base: '1', unit: "tbsp" },
-      { name: "Butter (cold)", base: '100', unit: "g" },
-      { name: "Plain flour", base: '150', unit: "g" },
-      { name: "Demerara sugar", base: '75', unit: "g" },
-      { name: "Rolled oats", base: '50', unit: "g" }
+      { name: "Beef mince (20% fat)", base: '500', unit: "g" },
+      { name: "Brioche buns", base: '2', unit: "buns" },
+      { name: "Cheddar cheese", base: '2', unit: "slices" },
+      { name: "Onion", base: '1', unit: "whole" },
+      { name: "Lettuce", base: '2', unit: "leaves" },
+      { name: "Tomato", base: '1', unit: "whole" },
+      { name: "Gherkins", base: '3', unit: "slices" }
     ];
     function fmt(val, unit) {
-      if (["tbsp","tsp","cloves","eggs","yolks","whole","muffins","racks","breasts","chops","biscuits","scallops","apples"].includes(unit)) return (Math.round(val*2)/2) + " " + unit;
+      if (["tbsp","tsp","cloves","eggs","yolks","whole","muffins","racks","breasts","chops","biscuits","scallops","apples","thighs","buns","leaves"].includes(unit)) return (Math.round(val*2)/2) + " " + unit;
       if (unit === "") return "";
       return Math.round(val) + " " + unit;
     }
