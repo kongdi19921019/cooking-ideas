@@ -26,9 +26,31 @@
     li { font-size: 0.95rem; margin-bottom: 0.5rem; color: #2a2a2a; }
     .tip { background: #f9f7f4; border-left: 3px solid #ccc; padding: 0.9rem 1rem; border-radius: 0 8px 8px 0; font-size: 0.88rem; color: #555; margin: 1.5rem 0; }
     .tip strong { color: #1e1e1e; }
-    .video-wrap { margin: 1.75rem 0; border-radius: 12px; overflow: hidden; position: relative; padding-top: 56.25%; }
-    .video-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
-    .video-label { font-size: 0.78rem; color: #bbb; margin-bottom: 0.5rem; }
+
+    /* Scaler */
+    .scaler {
+      background: #fef9f0;
+      border: 1px solid #f0dfc0;
+      border-radius: 12px;
+      padding: 1rem 1.1rem;
+      margin: 1.5rem 0;
+    }
+    .scaler label { font-size: 0.82rem; color: #888; display: block; margin-bottom: 0.5rem; }
+    .scaler-row { display: flex; align-items: center; gap: 0.6rem; }
+    .scaler input {
+      width: 80px; padding: 0.45rem 0.6rem;
+      border: 1px solid #e0d0b0; border-radius: 8px;
+      font-size: 1rem; text-align: center;
+      background: #fff;
+    }
+    .scaler span { font-size: 0.9rem; color: #888; }
+    .scaler-note { font-size: 0.75rem; color: #bbb; margin-top: 0.5rem; }
+
+    /* Ingredient with scaled amount */
+    .ing { display: flex; justify-content: space-between; align-items: baseline; padding: 0.35rem 0; border-bottom: 1px solid #f5f5f5; }
+    .ing:last-child { border-bottom: none; }
+    .ing-name { font-size: 0.95rem; color: #2a2a2a; }
+    .ing-amt { font-size: 0.92rem; color: #7c6fcd; font-weight: 500; min-width: 70px; text-align: right; }
   </style>
 </head>
 <body>
@@ -56,16 +78,20 @@
     </a>
 
     <h2>Ingredients</h2>
-    <ul>
-      <li>1.5 kg beef chuck, cut into 5cm cubes</li>
-      <li>200g lardons (or thick-cut bacon)</li>
-      <li>1 bottle red Burgundy (or any full-bodied red)</li>
-      <li>300g pearl onions</li>
-      <li>300g cremini mushrooms</li>
-      <li>3 cloves garlic, smashed</li>
-      <li>2 tbsp tomato paste</li>
-      <li>Thyme, bay leaves, beef stock</li>
-    </ul>
+
+    <!-- Scaler -->
+    <div class="scaler">
+      <label>Adjust beef quantity to scale the recipe:</label>
+      <div class="scaler-row">
+        <input type="number" id="beefInput" value="1500" min="100" step="50" />
+        <span>g of beef</span>
+      </div>
+      <div class="scaler-note">Base recipe: 1500g · Serves 6</div>
+    </div>
+
+    <div id="ingredients">
+      <!-- rendered by JS -->
+    </div>
 
     <h2>Steps</h2>
     <ol>
@@ -88,5 +114,48 @@
       <li>Same wine you cooked with</li>
     </ul>
   </div>
+
+  <script>
+    // Base amounts keyed to 1500g beef
+    const BASE_BEEF = 1500;
+    const ingredients = [
+      { name: "Beef chuck", base: 1500, unit: "g", key: true },
+      { name: "Lardons (or thick-cut bacon)", base: 200, unit: "g" },
+      { name: "Red Burgundy wine", base: 750, unit: "ml" },
+      { name: "Pearl onions", base: 300, unit: "g" },
+      { name: "Cremini mushrooms", base: 300, unit: "g" },
+      { name: "Garlic cloves", base: 3, unit: "cloves" },
+      { name: "Tomato paste", base: 2, unit: "tbsp" },
+      { name: "Beef stock", base: 300, unit: "ml" },
+    ];
+
+    function formatAmt(val, unit) {
+      if (["cloves","tbsp","tsp"].includes(unit)) {
+        const rounded = Math.round(val * 2) / 2;
+        return rounded + " " + unit;
+      }
+      return Math.round(val) + " " + unit;
+    }
+
+    function render(beefGrams) {
+      const ratio = beefGrams / BASE_BEEF;
+      const container = document.getElementById("ingredients");
+      container.innerHTML = ingredients.map(ing => {
+        const scaled = ing.base * ratio;
+        return `<div class="ing">
+          <span class="ing-name">${ing.name}</span>
+          <span class="ing-amt">${formatAmt(scaled, ing.unit)}</span>
+        </div>`;
+      }).join("");
+    }
+
+    const input = document.getElementById("beefInput");
+    input.addEventListener("input", () => {
+      const val = parseFloat(input.value);
+      if (val > 0) render(val);
+    });
+
+    render(BASE_BEEF);
+  </script>
 </body>
 </html>
