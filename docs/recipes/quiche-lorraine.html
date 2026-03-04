@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiche Lorraine</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #fff; font-family: -apple-system, sans-serif; color: #1e1e1e; max-width: 480px; margin: 0 auto; line-height: 1.75; padding-bottom: 4rem; }
+    .hero { width: 100%; height: 240px; object-fit: cover; display: block; }
+    .content { padding: 1.25rem 1.25rem 0; }
+    .back { font-size: .85rem; color: #999; display: inline-block; margin-bottom: 1rem; text-decoration: none; }
+    .chef { font-size: .72rem; padding: 2px 8px; border-radius: 20px; display: inline-block; margin-bottom: .5rem; color: #c47c1e; background: #fef3e2; }
+    h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: .3rem; }
+    .meta-row { display: flex; gap: 1rem; font-size: .8rem; color: #999; margin: .75rem 0 1.5rem; padding-bottom: 1.25rem; border-bottom: 1px solid #f0ede8; }
+    h2 { font-size: .85rem; text-transform: uppercase; letter-spacing: .08em; color: #aaa; margin: 1.5rem 0 .75rem; }
+    ul, ol { padding-left: 1.25rem; }
+    li { font-size: .95rem; margin-bottom: .5rem; color: #2a2a2a; }
+    .tip { background: #f9f7f4; border-left: 3px solid #ccc; padding: .9rem 1rem; border-radius: 0 8px 8px 0; font-size: .88rem; color: #555; margin: 1.5rem 0; }
+    .tip strong { color: #1e1e1e; }
+    .scaler { background: #fef9f0; border: 1px solid #f0dfc0; border-radius: 12px; padding: 1rem 1.1rem; margin: 1.5rem 0; }
+    .scaler label { font-size: .82rem; color: #888; display: block; margin-bottom: .5rem; }
+    .scaler-row { display: flex; align-items: center; gap: .6rem; }
+    .scaler input { width: 80px; padding: .45rem .6rem; border: 1px solid #e0d0b0; border-radius: 8px; font-size: 1rem; text-align: center; background: #fff; }
+    .scaler span { font-size: .9rem; color: #888; }
+    .scaler-note { font-size: .75rem; color: #bbb; margin-top: .5rem; }
+    .ing { display: flex; justify-content: space-between; align-items: baseline; padding: .35rem 0; border-bottom: 1px solid #f5f5f5; }
+    .ing:last-child { border-bottom: none; }
+    .ing-name { font-size: .95rem; color: #2a2a2a; }
+    .ing-amt { font-size: .92rem; color: #7c6fcd; font-weight: 500; min-width: 70px; text-align: right; }
+  </style>
+</head>
+<body>
+  <img class="hero" src="https://images.unsplash.com/photo-1565299507230-b5b793e71fd6?w=800&q=80" alt="Quiche Lorraine" />
+  <div class="content">
+    <a class="back" href="../index.html">← Back</a>
+    <span class="chef">Julia Child</span>
+    <h1>Quiche Lorraine</h1>
+    <div class="meta-row">
+      <span>⏱ 1 hr</span>
+      <span>👥 Serves 6</span>
+    </div>
+
+    <a href="https://www.youtube.com/watch?v=XqBrGGPQVQE" target="_blank" style="display:block;text-decoration:none;">
+      <div style="position:relative;border-radius:12px;overflow:hidden;background:#000;aspect-ratio:16/9;">
+        <img src="https://img.youtube.com/vi/XqBrGGPQVQE/hqdefault.jpg" style="width:100%;height:100%;object-fit:cover;opacity:0.85;" />
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+          <div style="width:60px;height:60px;background:rgba(255,0,0,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;">
+            <div style="width:0;height:0;border-style:solid;border-width:10px 0 10px 20px;border-color:transparent transparent transparent white;margin-left:4px;"></div>
+          </div>
+        </div>
+        <div style="position:absolute;bottom:0;left:0;right:0;padding:.75rem 1rem;background:linear-gradient(transparent,rgba(0,0,0,0.7));color:white;font-size:.85rem;">Watch Julia Child make it on YouTube</div>
+      </div>
+    </a>
+
+    <h2>Steps</h2>
+    <ol>
+      <li>Blind-bake pastry shell at 190°C for 15 minutes.</li>
+      <li>Sauté lardons until golden. Scatter over pastry base.</li>
+      <li>Whisk eggs, cream, nutmeg, salt and pepper together.</li>
+      <li>Pour custard over lardons. Top with grated Gruyère.</li>
+      <li>Bake at 175°C for 30-35 minutes until just set with a slight wobble in the centre.</li>
+      <li>Rest 10 minutes before slicing.</li>
+    </ol>
+
+    <div class="tip">
+      <strong>Julia's tip:</strong> The quiche should wobble slightly in the centre when you take it out — residual heat will finish it.
+    </div>
+
+    <h2>Serve With</h2>
+    <ul>
+      <li>Simple green salad with vinaigrette</li>
+      <li>A glass of Alsatian white wine</li>
+    </ul>
+
+    <h2>Ingredients</h2>
+    <div class="scaler">
+      <label>Adjust eggs to scale the recipe:</label>
+      <div class="scaler-row">
+        <input type="number" id="keyInput" value="4" min="1" step="1" />
+        <span>eggs</span>
+      </div>
+      <div class="scaler-note">Base recipe: 4 eggs · Serves 6</div>
+    </div>
+    <div id="ingredients"></div>
+  </div>
+
+  <script>
+    const BASE = 4;
+    const ingredients = [
+      { name: "Eggs", base: '4', unit: "eggs" },
+      { name: "Heavy cream", base: '250', unit: "ml" },
+      { name: "Lardons or bacon", base: '150', unit: "g" },
+      { name: "Gruyère cheese", base: '100', unit: "g" },
+      { name: "Shortcrust pastry shell", base: '1', unit: "23cm" }
+    ];
+    function fmt(val, unit) {
+      if (["tbsp","tsp","cloves","eggs","yolks","whole","muffins","racks","breasts","chops","biscuits","scallops","apples"].includes(unit)) return (Math.round(val*2)/2) + " " + unit;
+      if (unit === "") return "";
+      return Math.round(val) + " " + unit;
+    }
+    function render(v) {
+      const r = v / BASE;
+      document.getElementById("ingredients").innerHTML = ingredients.map(i =>
+        `<div class="ing"><span class="ing-name">${i.name}</span><span class="ing-amt">${fmt(i.base*r, i.unit)}</span></div>`
+      ).join("");
+    }
+    document.getElementById("keyInput").addEventListener("input", e => { const v=parseFloat(e.target.value); if(v>0) render(v); });
+    render(BASE);
+  </script>
+</body>
+</html>
