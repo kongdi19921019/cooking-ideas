@@ -10,43 +10,28 @@
       background: #fffdf9;
       font-family: -apple-system, 'PingFang SC', sans-serif;
       color: #1e1e1e;
-      padding: 1.5rem 1.25rem 3rem;
+      padding: 1.25rem 1rem 3rem;
       max-width: 480px;
       margin: 0 auto;
     }
-    h1 { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.25rem; }
-    .subtitle { font-size: 0.85rem; color: #999; margin-bottom: 1.75rem; }
-    
-    /* Filter tabs */
-    .filters { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
-    .filter {
-      padding: 5px 14px; border-radius: 20px; font-size: 0.82rem;
-      border: 1px solid #e0dbd3; background: #fff; color: #666; cursor: pointer;
-    }
+    h1 { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.2rem; }
+    .subtitle { font-size: 0.85rem; color: #999; margin-bottom: 1.5rem; }
+    .filters { display: flex; gap: 0.4rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
+    .filter { padding: 5px 13px; border-radius: 20px; font-size: 0.8rem; border: 1px solid #e0dbd3; background: #fff; color: #666; }
     .filter.active { background: #1e1e1e; color: #fff; border-color: #1e1e1e; }
-
     a { text-decoration: none; color: inherit; }
-    .card {
-      background: #fff;
-      border-radius: 14px;
-      padding: 1.25rem;
-      margin-bottom: 0.9rem;
-      border: 1px solid #ebe5dc;
-      display: flex;
-      gap: 1rem;
-      align-items: flex-start;
-    }
-    .card:active { background: #f9f5f0; }
-    .card-emoji { font-size: 2rem; line-height: 1; flex-shrink: 0; }
-    .card-body { flex: 1; }
-    .chef { font-size: 0.72rem; color: #c47c1e; background: #fef3e2; padding: 2px 8px; border-radius: 20px; display: inline-block; margin-bottom: 0.4rem; }
-    .card h2 { font-size: 0.97rem; font-weight: 600; margin-bottom: 0.25rem; line-height: 1.4; }
+    .card { background: #fff; border-radius: 14px; margin-bottom: 1rem; border: 1px solid #ebe5dc; overflow: hidden; }
+    .card img { width: 100%; height: 180px; object-fit: cover; display: block; }
+    .card-body { padding: 1rem 1.1rem 1rem; }
+    .chef { font-size: 0.72rem; padding: 2px 8px; border-radius: 20px; display: inline-block; margin-bottom: 0.4rem; }
+    .julia { color: #c47c1e; background: #fef3e2; }
+    .gordon { color: #c0392b; background: #fde8e8; }
+    .card h2 { font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem; }
     .card .desc { font-size: 0.83rem; color: #888; line-height: 1.5; }
     .meta { font-size: 0.75rem; color: #bbb; margin-top: 0.5rem; }
   </style>
 </head>
 <body>
-
   <h1>🍳 Cooking Ideas</h1>
   <p class="subtitle">Julia Child · Gordon Ramsay · and more</p>
 
@@ -60,9 +45,9 @@
 
   <a href="recipes/beef-bourguignon.html">
     <div class="card">
-      <div class="card-emoji">🥩</div>
+      <img src="https://images.unsplash.com/photo-1534939561126-855b8675edd7?w=800&q=80" alt="Beef Bourguignon" />
       <div class="card-body">
-        <span class="chef">Julia Child</span>
+        <span class="chef julia">Julia Child</span>
         <h2>Beef Bourguignon</h2>
         <p class="desc">The one that started it all. Worth every hour.</p>
         <div class="meta">Weekend · 3–4 hrs</div>
@@ -72,9 +57,9 @@
 
   <a href="recipes/scrambled-eggs.html">
     <div class="card">
-      <div class="card-emoji">🥚</div>
+      <img src="https://images.unsplash.com/photo-1510693206972-df098062cb71?w=800&q=80" alt="Scrambled Eggs" />
       <div class="card-body">
-        <span class="chef" style="background:#fde8e8;color:#c0392b;">Gordon Ramsay</span>
+        <span class="chef gordon">Gordon Ramsay</span>
         <h2>Perfect Scrambled Eggs</h2>
         <p class="desc">Looks simple. Most people do it wrong.</p>
         <div class="meta">Quick · 10 min</div>
